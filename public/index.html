@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REST API for User Management</title>
+  
+  <!-- Favicon Files -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="description" content="Professional REST API for User Management">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <i class="fas fa-users"></i>
+        <span>REST API for User Management</span>
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+        <i class="fas fa-sun"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-content">
+        <h3>Navigation</h3>
+        <ul class="nav-links">
+          <li><a href="#users" class="nav-link active" data-section="users">
+            <i class="fas fa-list"></i> All Users
+          </a></li>
+          <li><a href="#create" class="nav-link" data-section="create">
+            <i class="fas fa-plus-circle"></i> Add User
+          </a></li>
+          <li><a href="#search" class="nav-link" data-section="search">
+            <i class="fas fa-search"></i> Search Users
+          </a></li>
+          <li><a href="#api-docs" class="nav-link" data-section="docs">
+            <i class="fas fa-book"></i> API Docs
+          </a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Users Section -->
+      <section id="users-section" class="section active">
+        <div class="section-header">
+          <h2><i class="fas fa-users"></i> User Management</h2>
+          <button id="refreshBtn" class="btn btn-secondary" title="Refresh users list">
+            <i class="fas fa-sync-alt"></i> Refresh
+          </button>
+        </div>
+
+        <div class="users-grid" id="usersGrid">
+          <div class="loading">
+            <i class="fas fa-spinner fa-spin"></i> Loading users...
+          </div>
+        </div>
+      </section>
+
+      <!-- Create User Section -->
+      <section id="create-section" class="section">
+        <div class="section-header">
+          <h2><i class="fas fa-plus-circle"></i> Create New User</h2>
+        </div>
+
+        <div class="form-container">
+          <form id="createUserForm" class="user-form">
+            <div class="form-group">
+              <label for="name">Full Name *</label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                placeholder="Enter full name" 
+                required
+              >
+              <span class="error-message" id="nameError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                placeholder="Enter email address" 
+                required
+              >
+              <span class="error-message" id="emailError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number *</label>
+              <input 
+                type="tel" 
+                id="phone" 
+                name="phone" 
+                placeholder="Enter phone number" 
+                required
+              >
+              <span class="error-message" id="phoneError"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Create User
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Search Section -->
+      <section id="search-section" class="section">
+        <div class="section-header">
+          <h2><i class="fas fa-search"></i> Search Users</h2>
+        </div>
+
+        <div class="search-container">
+          <div class="form-group">
+            <input 
+              type="text" 
+              id="searchInput" 
+              placeholder="Search by name or email..." 
+              class="search-input"
+            >
+            <button id="searchBtn" class="btn btn-primary">
+              <i class="fas fa-search"></i> Search
+            </button>
+          </div>
+
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </section>
+
+      <!-- API Docs Section -->
+      <section id="docs-section" class="section">
+        <div class="section-header">
+          <h2><i class="fas fa-book"></i> API Documentation</h2>
+        </div>
+
+        <div class="api-docs">
+          <div class="api-endpoint">
+            <h3><span class="badge badge-get">GET</span> /api/users</h3>
+            <p>Retrieve all users</p>
+            <pre><code>curl -X GET http://localhost:5000/api/users</code></pre>
+          </div>
+
+          <div class="api-endpoint">
+            <h3><span class="badge badge-get">GET</span> /api/users/:id</h3>
+            <p>Retrieve a specific user by ID</p>
+            <pre><code>curl -X GET http://localhost:5000/api/users/user-id</code></pre>
+          </div>
+
+          <div class="api-endpoint">
+            <h3><span class="badge badge-post">POST</span> /api/users</h3>
+            <p>Create a new user</p>
+            <pre><code>curl -X POST http://localhost:5000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{"name":"John","email":"john@example.com","phone":"+1-555-0101"}'</code></pre>
+          </div>
+
+          <div class="api-endpoint">
+            <h3><span class="badge badge-put">PUT</span> /api/users/:id</h3>
+            <p>Update a user</p>
+            <pre><code>curl -X PUT http://localhost:5000/api/users/user-id \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Jane","email":"jane@example.com"}'</code></pre>
+          </div>
+
+          <div class="api-endpoint">
+            <h3><span class="badge badge-delete">DELETE</span> /api/users/:id</h3>
+            <p>Delete a user</p>
+            <pre><code>curl -X DELETE http://localhost:5000/api/users/user-id</code></pre>
+          </div>
+
+          <div class="api-endpoint">
+            <h3><span class="badge badge-get">GET</span> /api/users/search?q=query</h3>
+            <p>Search users by name or email</p>
+            <pre><code>curl -X GET "http://localhost:5000/api/users/search?q=john"</code></pre>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal for Editing User -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Edit User</h3>
+        <button class="modal-close" id="closeModal">&times;</button>
+      </div>
+      <form id="editUserForm" class="user-form">
+        <input type="hidden" id="editUserId">
+        
+        <div class="form-group">
+          <label for="editName">Full Name *</label>
+          <input 
+            type="text" 
+            id="editName" 
+            name="name" 
+            placeholder="Enter full name" 
+            required
+          >
+          <span class="error-message" id="editNameError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="editEmail">Email Address *</label>
+          <input 
+            type="email" 
+            id="editEmail" 
+            name="email" 
+            placeholder="Enter email address" 
+            required
+          >
+          <span class="error-message" id="editEmailError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="editPhone">Phone Number *</label>
+          <input 
+            type="tel" 
+            id="editPhone" 
+            name="phone" 
+            placeholder="Enter phone number" 
+            required
+          >
+          <span class="error-message" id="editPhoneError"></span>
+        </div>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Save Changes
+          </button>
+          <button type="button" class="btn btn-secondary" id="cancelBtn">
+            <i class="fas fa-times"></i> Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <script src="/script.js"></script>
+</body>
+</html>
