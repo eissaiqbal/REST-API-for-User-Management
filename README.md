@@ -29,7 +29,7 @@ This is a **REST API for User Management** that demonstrates best practices in w
 ## Project Structure
 
 ```
-user-management-api/
+rest-api-for-user-management/
 ├── public/                      # Frontend files
 │   ├── index.html              # Main HTML file
 │   ├── styles.css              # Styling with theme support
